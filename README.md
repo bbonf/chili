@@ -30,6 +30,8 @@ Config files are essentialy python code that gets loaded on startup and make use
 ### decorators
 ##### command
 ```python
+from chili import command
+
 @command('say')
 def say(text):
     os.system('say %s' % text)
@@ -37,6 +39,8 @@ def say(text):
 registers a launcher command that can be used in the launcher window.
 ##### every
 ```python
+from chili.timer import every
+
 @every(60, 0.5)
 def annoy(done, snooze):
     os.system('say about 30 to 90 seconds have passed')
@@ -46,6 +50,7 @@ registers a scheduler with interval in seconds and fuzziness.
 
 ##### hotkey
 ```python
+from chili.keyboard import hotkey
 import requests
 
 @hotkey('cmd-j')
