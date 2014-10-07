@@ -9,7 +9,10 @@ from Cocoa import NSFunctionKeyMask, NSAlternateKeyMask, \
     NSControlKeyMask, NSCommandKeyMask
 from Cocoa import NSWorkspace
 from LauncherController import LauncherController
+
+import util.axapi as axapi
 import chili
+import chili.ui
 
 import sys
 import traceback
@@ -94,6 +97,19 @@ class ApplicationDelegate(NSObject):
 
     def applicationDidFinishLaunching_(self, _):
         NSLog("applicationDidFinishLaunching_")
+
+        if not axapi.ax_enabled():
+            NSLog("Accessibility Permissions not enabled")
+
+            chili.ui.prompt(
+                    'Accessibility permissions are required for Chili to run.\n' +
+                    'The Security preferences will now open, Please go to "Privacy" pane and choose "Accessibility" on the left panel.\n' +
+                    'Check the box next to Chili and run the app again.')
+            chili.open('/System/Library/PreferencePanes/Security.prefPane')
+            self.quit()
+
+            return
+
 
         try:
             chili.load_user_settings()
