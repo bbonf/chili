@@ -1,6 +1,7 @@
 import os
 import glob
 
+import chili.ui
 from Cocoa import NSWorkspace, NSURL
 
 # this shouldn't be module-level
@@ -109,7 +110,11 @@ def open_url(url):
 def load_user_settings(_=None):
     glbls = dict(command=command)
 
-    for f in glob.glob(os.path.expanduser('~/.chili/*.py')):
+    configs = glob.glob(os.path.expanduser('~/.chili/*.py'))
+    if len(configs) < 1:
+        chili.ui.prompt("Couldn't find any config files in: %s" % os.path.expanduser('~/.chili/'))
+
+    for f in configs:
         execfile(f, glbls)
 
 
